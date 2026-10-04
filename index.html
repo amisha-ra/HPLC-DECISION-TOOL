@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f7f5">
+    <meta name="description" content="A workspace for reviewing HPLC method development runs.">
+    <title>HPLC Method Development Decision Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=20261004-4">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#page-title" aria-label="HPLC Method Development Decision Tool Dashboard">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+          <span class="brand-copy">
+            <span class="brand-kicker">HPLC METHOD DEVELOPMENT</span>
+            <span class="brand-name">Decision Tool Dashboard</span>
+          </span>
+        </a>
+      </header>
+
+      <main>
+        <section class="view is-visible" data-view-panel="dashboard" aria-labelledby="page-title">
+          <div class="page-heading">
+            <div>
+              <h1 id="page-title">HPLC Method Development</h1>
+              <p class="page-subtitle">Review method criteria and run data in one place.</p>
+            </div>
+          </div>
+
+          <div class="dashboard-tabs" role="tablist" aria-label="Dashboard sections">
+            <button class="dashboard-tab is-active" type="button" role="tab" id="tab-run-review" aria-selected="true" aria-controls="panel-run-review" data-dashboard-tab="run-review">Run Review</button>
+            <button class="dashboard-tab" type="button" role="tab" id="tab-dashboard-equipment" aria-selected="false" aria-controls="panel-dashboard-equipment" data-dashboard-tab="equipment" tabindex="-1">Equipment</button>
+          </div>
+
+          <section class="dashboard-panel is-visible" id="panel-run-review" role="tabpanel" aria-labelledby="tab-run-review" data-dashboard-panel="run-review">
+            <div class="workspace-grid">
+              <div class="left-column">
+                <p class="retention-upload-note"><strong>Upload your retention runs first.</strong><br>View panels in order; decision for 'Next-run' is shown to the right.</p>
+                <section class="panel specifications-panel" aria-labelledby="specifications-title">
+                  <div class="panel-heading">
+                    <div class="section-title-wrap"><span class="section-index">01</span><div><h2 id="specifications-title">Method Specifications</h2><p>Set the criteria for this method.</p></div></div>
+                    <span class="source-tag source-user" aria-label="User input" title="User input">USER INPUT</span>
+                  </div>
+                  <div class="spec-grid">
+                    <label class="field" for="target-peaks"><span class="field-label">Target peak count</span><span class="input-wrap"><input id="target-peaks" name="targetPeaks" type="number" min="1" step="1" value="7" inputmode="numeric"><span class="unit">peaks</span></span></label>
+                    <label class="field" for="max-run-time"><span class="field-label">Maximum run time</span><span class="input-wrap"><input id="max-run-time" name="maxRunTime" type="number" min="0" step="any" value="15" inputmode="decimal"><span class="unit">min</span></span></label>
+                    <label class="field" for="min-resolution"><span class="field-label">Minimum acceptable resolution</span><span class="input-wrap"><input id="min-resolution" name="minResolution" type="number" min="0" step="0.1" value="1.4" inputmode="decimal"><span class="unit">Rmin</span></span></label>
+                    <label class="field" for="max-backpressure"><span class="field-label">Maximum backpressure</span><span class="input-wrap"><input id="max-backpressure" name="maxBackpressure" type="number" min="0" step="any" value="4000" inputmode="numeric"><span class="unit">psi</span></span></label>
+                  </div>
+                </section>
+
+                <section class="panel upload-panel" aria-labelledby="upload-title">
+                  <div class="panel-heading compact-heading">
+                    <div class="section-title-wrap"><span class="section-index">02</span><div><h2 id="upload-title">File Upload</h2><p>Choose an HPLC run file for review.</p></div></div>
+                    <span class="upload-run-status is-no-run" data-upload-run-status role="status" aria-live="polite">No run uploaded</span>
+                  </div>
+                  <label class="upload-control" for="run-file">
+                    <span class="upload-icon" aria-hidden="true">↑</span>
+                    <span class="upload-text"><strong>Choose a run file</strong><span>CSV or XLSX</span></span>
+                    <span class="upload-button">Browse files</span>
+                    <input id="run-file" type="file" multiple accept=".csv,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv">
+                  </label>
+                  <div class="file-state" aria-live="polite"><span class="file-state-mark" aria-hidden="true">i</span><span data-file-state>No run file selected.</span></div>
+                </section>
+
+                <section class="panel current-run-panel" aria-labelledby="current-run-title">
+                  <div class="panel-heading compact-heading">
+                    <div class="section-title-wrap"><span class="section-index">03</span><div><h2 id="current-run-title">Current Run / Uploaded Run</h2><p>All values are automatically filled from the most recently uploaded file, though can be manually edited. Pore size and carbon load must be manually selected as they are not included in the run file.</p><p class="run-navigation-help" data-run-navigation-help>To view a previously uploaded/saved run in the Current Run, Chromatographic Results, Decision, and Next-run Conditions panels again, click the arrows.</p><p>If all runs were uploaded at once, please set Pore Size and Carbon Load for each run.</p><p class="run-history-reminder">Check all values prior to inserting a new run to ensure the run history saves correctly.</p></div></div>
+                    <span class="source-tag source-import" aria-label="User input and imported" title="User input and imported">USER INPUT/IMPORTED</span>
+                  </div>
+                  <div class="run-number-strip"><span>GROUP:</span><input data-group-number data-run-identifier="group" type="text" inputmode="numeric" autocomplete="off" aria-label="Group number"><span>RUN NUMBER:</span><input data-run-number data-run-identifier="run" type="text" inputmode="numeric" autocomplete="off" aria-label="Run number"><span class="run-navigation" data-run-navigation><button class="run-navigation-button" type="button" data-run-navigate="previous" aria-label="View previous saved run">‹</button><button class="run-navigation-button" type="button" data-run-navigate="next" aria-label="View next saved run">›</button></span></div>
+                  <div class="run-condition-grid" data-condition-grid>
+                    <label class="data-field run-field-ligand" for="run-ligand"><span>Ligand</span><span class="editable-value"><input id="run-ligand" data-run-condition="ligand" type="text" autocomplete="off"><small></small></span></label>
+                    <label class="data-field run-field-bead-type" for="run-bead-type"><span>Bead type</span><span class="editable-value"><input id="run-bead-type" data-run-condition="beadType" type="text" autocomplete="off"><small></small></span></label>
+                    <label class="data-field run-field-coreshell" for="run-coreshell"><span>Coreshell present</span><span class="editable-value coreshell-value"><input id="run-coreshell" data-run-condition="coreshellPresent" type="text" autocomplete="off" aria-label="Coreshell present"></span></label>
+                    <label class="data-field run-field-pore-size" for="run-pore-size"><span>Pore size</span><span class="editable-value"><span class="select-control"><select id="run-pore-size" data-run-condition="poreSizeA" aria-label="Pore size"><option value="">Select</option><option value="60">60 Å</option><option value="90">90 Å</option><option value="100">100 Å</option><option value="110">110 Å</option><option value="140">140 Å</option></select><span class="select-arrow-box" aria-hidden="true"></span></span></span></label>
+                    <label class="data-field run-field-carbon-load" for="run-carbon-load"><span>Carbon load</span><span class="editable-value"><span class="select-control"><select id="run-carbon-load" data-run-condition="carbonLoadPercent" aria-label="Carbon load"><option value="">Select</option><option value="2">2%</option><option value="3">3%</option><option value="4">4%</option><option value="4.6">4.6%</option><option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option><option value="9">9%</option><option value="10">10%</option><option value="11">11%</option><option value="12">12%</option><option value="15">15%</option><option value="16">16%</option><option value="17">17%</option><option value="20">20%</option></select><span class="select-arrow-box" aria-hidden="true"></span></span></span></label>
+                    <label class="data-field" for="run-column-length"><span>Column length</span><span class="editable-value"><input id="run-column-length" data-run-condition="columnLengthMm" type="text" autocomplete="off"><small>mm</small></span></label>
+                    <label class="data-field" for="run-column-id-mm"><span>Column internal diameter</span><span class="editable-value"><input id="run-column-id-mm" data-run-condition="columnInternalDiameterMm" type="text" autocomplete="off"><small>mm</small></span></label>
+                    <label class="data-field" for="run-particle-size"><span>Particle size</span><span class="editable-value"><input id="run-particle-size" data-run-condition="particleSizeUm" type="text" autocomplete="off"><small>µm</small></span></label>
+                    <label class="data-field" for="run-injection-volume"><span>Injection volume</span><span class="editable-value"><input id="run-injection-volume" data-run-condition="injectionVolumeUl" type="text" autocomplete="off"><small>µL</small></span></label>
+                    <label class="data-field" for="run-solvent"><span>Solvent type</span><span class="editable-value"><input id="run-solvent" data-run-condition="solventType" type="text" autocomplete="off"><small></small></span></label>
+                    <label class="data-field" for="run-ph"><span>pH</span><span class="editable-value"><input id="run-ph" data-run-condition="pH" type="text" inputmode="decimal" autocomplete="off"><small></small></span></label>
+                    <label class="data-field" for="run-percent-b"><span>%B</span><span class="editable-value"><input id="run-percent-b" data-run-condition="percentB" type="text" autocomplete="off"><small>%</small></span></label>
+                    <label class="data-field" for="run-flow-rate"><span>Flow rate</span><span class="editable-value"><input id="run-flow-rate" data-run-condition="flowRateMlMin" type="text" autocomplete="off"><small>mL/min</small></span></label>
+                    <label class="data-field" for="run-concentration"><span>Sample concentration</span><span class="editable-value"><input id="run-concentration" data-run-condition="sampleConcentrationMgMl" type="text" autocomplete="off"><small>mg/mL</small></span></label>
+                    <label class="data-field" for="run-temperature"><span>Temperature</span><span class="editable-value"><input id="run-temperature" data-run-condition="temperatureDisplay" type="text" autocomplete="off"><small>°C</small></span></label>
+                    <label class="data-field" for="run-wavelength"><span>Wavelength</span><span class="editable-value"><input id="run-wavelength" data-run-condition="wavelengthDisplay" type="text" autocomplete="off"><small>nm</small></span></label>
+                  </div>
+                </section>
+
+              </div>
+
+              <aside class="right-column" aria-label="Decision and method history">
+                <section class="decision-panel" aria-labelledby="decision-title">
+                  <div class="decision-topline"><span class="decision-kicker">DECISION ENGINE</span><span class="decision-state"><i></i> AWAITING DATA</span></div>
+                  <h2 id="decision-title">Decision</h2>
+                  <p class="decision-run-id" data-decision-run-id hidden></p>
+                  <p class="decision-message" aria-live="polite">Upload a run to begin review.</p>
+                  <h3 class="decision-reason-heading" data-decision-reason-heading hidden>Reason:</h3>
+                  <p class="decision-reason" data-decision-reason hidden></p>
+                  <div class="decision-controls" data-decision-controls hidden></div>
+                  <div class="decision-open-space" aria-hidden="true"></div>
+                  <section class="decision-parameter-change" aria-labelledby="decision-parameter-title">
+                    <div class="decision-parameter-heading"><h3 id="decision-parameter-title">Parameter change</h3><button class="decision-parameter-link" type="button" data-decision-equipment-parameter disabled>Click to see parameter info in Equipment tab</button></div>
+                    <div class="decision-parameter-grid">
+                      <div><span>Parameter to change</span><strong data-decision-parameter>Not available</strong></div>
+                      <div><span>Controlling module</span><strong data-decision-module>Not available</strong></div>
+                      <div><span>Range/units</span><strong data-decision-range>Not configured</strong></div>
+                      <div><span>Current → Next</span><strong data-decision-current-next>—</strong></div>
+                      <div><span>Reason/effect</span><strong data-decision-effect>—</strong></div>
+                    </div>
+                  </section>
+                </section>
+
+                <section class="panel next-run-panel" aria-labelledby="next-run-title">
+                    <div class="next-run-heading"><div><p class="eyebrow">RECOMMENDED METHOD</p><h2 id="next-run-title">Next-run Conditions <span>(DECISION)</span></h2></div></div>
+                  <p class="quiet-copy" data-next-run-summary>Conditions for the next run are shown below.</p>
+                  <div class="next-conditions-grid">
+                    <div><span>Ligand / Column</span><strong data-next-condition="ligandColumn">—</strong></div>
+                    <div><span>Solvent type</span><strong data-next-condition="solventType">—</strong></div>
+                    <div><span>%B</span><strong data-next-condition="percentB">—</strong></div>
+                    <div><span>Flow rate</span><strong data-next-condition="flowRateMlMin">—</strong></div>
+                    <div><span>Particle size</span><strong data-next-condition="particleSizeUm">—</strong></div>
+                    <div><span>Temperature</span><strong data-next-condition="temperatureC">—</strong></div>
+                  </div>
+                </section>
+
+                <section class="panel results-panel" aria-labelledby="results-title">
+                  <div class="panel-heading compact-heading">
+                    <div class="section-title-wrap"><span class="section-index">04</span><div><h2 id="results-title">Chromatographic Results</h2><p>Primary measurements for decision review.</p></div></div>
+                    <span class="source-tag source-import" aria-label="Imported" title="Imported">IMPORTED</span>
+                  </div>
+                  <div class="result-grid">
+                    <div class="result-tile"><span class="result-label">Backpressure</span><strong><span data-result-value="backPressurePsi">—</span> <small>psi</small></strong><span class="result-context">Limit <b data-spec-reference="maximumBackpressurePsi">4000 psi</b></span></div>
+                    <div class="result-tile"><span class="result-label">Peak count</span><strong><span data-result-value="peakCount">—</span> <small>peaks</small></strong><span class="result-context">Target <b data-spec-reference="targetPeakCount">7 peaks</b></span></div>
+                    <div class="result-tile"><span class="result-label">Last-peak retention time (tR,last)</span><strong><span data-result-value="lastPeakRetentionTimeMin">—</span> <small>min</small></strong><span class="result-context">Limit <b data-spec-reference="maximumRunTimeMin">15 min</b></span></div>
+                    <div class="result-tile"><span class="result-label">Worst-pair resolution (Rs,worst)</span><strong><span data-result-value="worstPairResolution">—</span> <small>Rmin</small></strong><small class="result-warning" data-result-warning="worstPairResolution" hidden></small><span class="result-context">Minimum <b data-spec-reference="minimumResolutionRmin">1.4 Rmin</b></span></div>
+                  </div>
+                </section>
+
+              </aside>
+
+              <section class="panel history-summary" aria-labelledby="history-summary-title">
+                <div class="panel-heading history-heading">
+                  <div class="section-title-wrap"><span class="section-index">05</span><div><h2 id="history-summary-title">Run History</h2><p>The current method development sequence and performed runs is shown in full.</p><p>Scroll to view all parameters.</p><p class="history-parameter-reminder"><strong>If pore size or carbon load (and in cases for Bead Type/coreshell when a BiPH column was in use) was not selected, please use arrows in the ‘Current Run’ panel to find the specific run and enter those values.</strong></p></div></div>
+                  <div class="history-clear-control">
+                    <button class="history-clear-button" type="button" data-clear-all aria-controls="clear-all-prompt">CLEAR ALL</button>
+                    <div class="history-clear-prompt" id="clear-all-prompt" data-clear-all-prompt role="group" aria-label="Confirm clearing all entered data" hidden>
+                      <p>Are you sure?</p>
+                      <div><button type="button" data-clear-all-no>No</button><button type="button" data-clear-all-yes>Yes</button></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="history-table-wrap history-summary-table-wrap"><table class="history-table" aria-label="Run History summary"><thead><tr data-history-headers></tr></thead><tbody data-history-rows></tbody></table></div>
+                <div class="history-table-empty" data-history-empty><span class="empty-mark">0</span><strong>No runs recorded</strong><span>Uploaded run history will appear here.</span></div>
+              </section>
+              <section class="panel visual-chromatogram-panel" aria-labelledby="visual-chromatogram-title">
+                <div class="panel-heading">
+                  <div class="section-title-wrap"><span class="section-index">06</span><div><h2 id="visual-chromatogram-title">Visual Chromatogram Reconstruction</h2><p>Click on a saved run from the 'Run History' table above to see its visual reconstruction.</p></div></div>
+                </div>
+                <div class="chromatogram-reconstruction" data-chromatogram-reconstruction aria-live="polite">
+                  <p class="chromatogram-empty-state">Select a saved run in Run History to see its visual reconstruction.</p>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="dashboard-panel equipment-panel" id="panel-dashboard-equipment" role="tabpanel" aria-labelledby="tab-dashboard-equipment" data-dashboard-panel="equipment" hidden>
+            <div class="equipment-intro">
+              <div><p class="equipment-kicker">KNOW YOUR HPLC SYSTEM</p><h2>Equipment &amp; Parameters</h2></div>
+            </div>
+            <div class="equipment-layout">
+              <section class="panel equipment-modules" aria-labelledby="equipment-modules-title">
+                <div class="panel-heading compact-heading"><div><h3 id="equipment-modules-title">Instrument Modules</h3><p>Select a module or parameter to inspect its function, control point, operating range, and chromatographic effect. The function of a specific module or parameter can be viewed in the Selected module information panel.</p></div></div>
+                <div class="module-list" data-equipment-modules></div>
+              </section>
+
+              <section class="panel equipment-detail" aria-labelledby="equipment-detail-title" aria-live="polite">
+                <div class="equipment-detail-heading"><div><p class="equipment-detail-kicker">SELECTED MODULE INFORMATION</p><h3 class="equipment-detail-title" id="equipment-detail-title">Select an instrument module</h3></div></div>
+                <div class="equipment-detail-grid">
+                  <div><span>FUNCTIONS</span><div class="equipment-detail-info" data-equipment-function-container><strong data-equipment-function>No module selected</strong><div class="column-selector" data-column-selector hidden><h4>WHAT IS YOUR COLUMN?</h4><label class="column-selector-label" for="potential-columns">Potential columns:</label><select id="potential-columns" class="column-selector-select" aria-label="Potential columns"><option value="">Select a column</option><option value="C18">C18 (with bead type: Pinnacle DB, Force, Ultra, or Raptor)</option><option value="C18AQ">C18 AQ (with bead type: Pinnacle DB, Force, Ultra, or Raptor)</option><option value="PFPP">PFPP (with bead type: Pinnacle DB, Force, Ultra, or Raptor)</option><option value="BiPH">Biphenyl (BiPH) (with bead type: Pinnacle DB, Force, Ultra, or Raptor)</option><option value="IBD">IBD (with bead type: Pinnacle DB, Force, Ultra, or Raptor)</option><option value="PFP">Fluorophenyl (with bead type: Pinnacle DB, Force, Ultra, or Raptor)</option></select><p>follow the link to view all possible column types as provided by Restek:</p><a href="https://www.restek.com/global/en/c/1275?Ns=restekProduct.x_productBadge%7C0" target="_blank" rel="noopener noreferrer">https://www.restek.com/global/en/c/1275?Ns=restekProduct.x_productBadge%7C0</a></div></div></div>
+                  <div><span>What you can alter</span><div class="equipment-detail-info"><div class="equipment-detail-alterations" data-equipment-alterations>No module selected</div></div></div>
+                  <div><span>Effects of changing it</span><div class="equipment-detail-info"><strong data-equipment-effects>No module selected</strong></div></div>
+                  <div><span>What happens to the chromatogram?</span><div class="equipment-detail-info"><strong data-equipment-chromatogram>No module selected</strong></div></div>
+                </div>
+              </section>
+
+              <div class="equipment-content">
+                <section class="panel hplc-configurations-panel" aria-labelledby="hplc-configurations-title">
+                  <div class="panel-heading compact-heading"><h3 id="hplc-configurations-title">HPLC Unit Configurations</h3></div>
+                  <div class="hplc-configurations-copy">
+                    <p><strong>Important:</strong> The physical arrangement and stacking order of modules may vary between HPLC systems. The diagrams below are illustrative and show the different solvent delivery configurations and instrument modules that may comprise a HPLC system.</p>
+                    <p>It is not the module configuration that is important; rather it is the connectivity and direction of the mobile phase flow path through the tubing that determines the functional sequence of the system. This sequence represents the order followed by the mobile phase during HPLC operation and corresponds to the flow path shown in the ‘Instrument Modules’ panel above.</p>
+                  </div>
+                  <img class="hplc-configuration-image" src="assets/hplc%20modules.png" alt="Illustrations of a binary two-pump HPLC system and a quaternary-valve single-pump HPLC system, showing solvent delivery, autosampler, column oven, detector, and waste flow paths">
+                </section>
+                <aside class="equipment-reminder" aria-label="Remember chromatographic effects">
+                  <strong class="equipment-reminder-title">REMEMBER</strong>
+                  <div><strong>RETENTION</strong><span>Primarily moves peaks along the time axis.</span></div>
+                  <div><strong>SELECTIVITY</strong><span>Changes relative peak positions.</span></div>
+                  <div><strong>EFFICIENCY</strong><span>Changes peak width/band broadening.</span></div>
+                </aside>
+
+                <section class="panel equipment-parameters" aria-labelledby="equipment-parameters-title">
+                  <div class="panel-heading compact-heading"><div><h3 id="equipment-parameters-title">Equipment and Method Parameters</h3><p>Parameter ranges and chromatographic effects are shown below. Select a row to highlight it.</p></div></div>
+                  <div class="parameter-table-wrap">
+                    <table class="equipment-table">
+                      <thead><tr><th scope="col">Parameter</th><th scope="col">Category</th><th scope="col">Controlling module</th><th scope="col">Usual range / units</th><th scope="col">Chromatographic effect</th></tr></thead>
+                      <tbody data-equipment-parameters></tbody>
+                    </table>
+                  </div>
+                </section>
+
+                <section class="equipment-source-grid" aria-label="Chromatographic data sources">
+                  <section class="panel source-panel" aria-labelledby="direct-responses-title">
+                    <div class="panel-heading compact-heading"><div><h3 id="direct-responses-title">Read from chromatogram</h3><p>Values are expected from run data when available.</p></div><span class="source-tag source-import" aria-label="Imported" title="Imported">IMPORTED</span></div>
+                    <div class="response-list chromatogram-response-list" data-direct-responses></div>
+                  </section>
+                  <section class="panel source-panel" aria-labelledby="calculated-responses-title">
+                    <div class="panel-heading compact-heading"><div><h3 id="calculated-responses-title">Supporting/calculated quantities</h3><p>Calculated outputs are kept distinct from instrument/file data.</p></div><span class="source-tag source-calculated">DERIVED</span></div>
+                    <div class="response-list calculated-response-list" data-calculated-responses></div>
+                  </section>
+                </section>
+
+              </div>
+            </div>
+          </section>
+          <footer class="page-footer"><span>HPLC METHOD DEVELOPMENT</span><span>Amisha Rattan <b>·</b> Student ID 34965653</span></footer>
+        </section>
+      </main>
+    </div>
+    <div class="alert-backdrop" data-import-alert hidden>
+      <section class="import-alert" role="alertdialog" aria-modal="true" aria-describedby="import-alert-message">
+        <button class="import-alert-close" type="button" data-close-import-alert aria-label="Close alert">×</button>
+        <p id="import-alert-message"></p>
+      </section>
+    </div>
+    <div class="alert-backdrop" data-delete-confirm hidden>
+      <section class="delete-confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="delete-confirm-title" aria-describedby="delete-confirm-message">
+        <h2 id="delete-confirm-title">Are you sure?</h2>
+        <p id="delete-confirm-message">Delete this run from Run History and the current tool?</p>
+        <div class="delete-confirm-actions">
+          <button type="button" data-confirm-delete-no>No</button>
+          <button type="button" data-confirm-delete-yes>Yes</button>
+        </div>
+      </section>
+    </div>
+    <script src="src/state/app-state.js?v=20261004-2"></script>
+    <script src="src/ui/navigation.js?v=20261004-1"></script>
+      <script src="src/parsing/fflate.js?v=0.8.2"></script>
+      <script src="src/parsing/xlsx-to-csv.js?v=20261004-1"></script>
+      <script src="src/parsing/run-csv-metadata.js?v=20261003-5"></script>
+    <script src="src/decision/decision-engine.js?v=20261004-30"></script>
+    <script src="src/ui/decision-view.js?v=20261004-11"></script>
+      <script src="src/ui/chromatogram-view.js?v=20261004-14"></script>
+    <script src="src/ui/dashboard.js?v=20261004-6"></script>
+    <script src="src/equipment/equipment-catalog.js?v=20261004-9"></script>
+    <script src="src/ui/equipment.js?v=20261004-8"></script>
+    <script src="src/main.js?v=20261004-2"></script>
+  </body>
+</html>
